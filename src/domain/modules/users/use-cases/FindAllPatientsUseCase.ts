@@ -2,7 +2,7 @@ import { NotFoundError } from "../../../common/errors/NotFoundError";
 import { Patient } from "../entities/Patient";
 import { IPatientRepository } from "../repositories/IPatientRepository";
 
-export class FindAllPatientsUseCases {
+export class FindAllPatientsUseCase {
   constructor(private readonly patientRepository: IPatientRepository) {}
 
   async execute(): Promise<Patient[] | null> {

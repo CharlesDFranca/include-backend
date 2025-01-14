@@ -1,11 +1,11 @@
 import { Patient } from "../../../../domain/modules/users/entities/Patient";
 import { IPatientRepository } from "../../../../domain/modules/users/repositories/IPatientRepository";
-import { CreaetePatientInput } from "../../../../domain/modules/users/use-cases/CreatePatientUseCase";
+import { CreatePatientInput } from "../../../../domain/modules/users/use-cases/CreatePatientUseCase";
 import { Email } from "../../../../domain/modules/users/value-objects/Email";
 import { PatientModel } from "../models/PatientModel";
 
 export class PatientRepository implements IPatientRepository {
-  async create({ name, contact, email, password }: CreaetePatientInput): Promise<Patient> {
+  async create({ name, contact, email, password }: CreatePatientInput): Promise<Patient> {
     const patiendDocument = await PatientModel.create({ name, contact, email, password });
 
     await patiendDocument.save();
@@ -62,11 +62,14 @@ export class PatientRepository implements IPatientRepository {
     return await PatientModel.findOne({ $where: email });
   }
 
-  async delete(id: string): Promise<void> {
-    this.findByID(id);
+  async delete(id: string): Promise<boolean> {
+    const patient = await PatientModel.findById(id);
 
-    PatientModel.deleteOne({ id });
+    if (!patient) {
+      return false;
+    }
 
-    return;
+    await PatientModel.deleteOne({ _id: id });
+    return true;
   }
 }
