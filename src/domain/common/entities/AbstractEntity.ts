@@ -1,7 +1,7 @@
 export abstract class AbstractEntity<T> {
     constructor(
       protected readonly props: T,
-      private id?: string,
+      private id: string,
     ) {}
   
     public get getID(): string | undefined {

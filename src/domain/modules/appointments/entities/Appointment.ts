@@ -11,13 +11,7 @@ export type AppointmentProps = {
 };
 
 export class Appointment extends AbstractEntity<AppointmentProps> {
-  constructor(
-    id: string | undefined,
-    patientID: string,
-    doctorID: string,
-    startsAt: Date,
-    endsAt: Date,
-  ) {
+  constructor(id: string, patientID: string, doctorID: string, startsAt: Date, endsAt: Date) {
     if (!patientID || !doctorID) {
       throw new MissingRequiredFieldsError("O ID do paciente e do doutor é requerido!");
     }
@@ -28,7 +22,7 @@ export class Appointment extends AbstractEntity<AppointmentProps> {
       );
     }
 
-    super({ patientID, doctorID, endsAt, startsAt });
+    super({ patientID, doctorID, endsAt, startsAt }, id);
   }
 
   get getStartsAt() {

@@ -7,14 +7,14 @@ export class Doctor extends AbstractUser {
   private appointments: Appointment[] = [];
 
   constructor(
-    id: string | undefined,
+    id: string,
     name: string,
     email: Email,
     private specialty: string,
     private availability: Availability,
     password: string,
   ) {
-    super({ name, email, password }, id!);
+    super({ name, email, password }, id);
     this.availability = availability;
   }
   get getSpecialty(): string {

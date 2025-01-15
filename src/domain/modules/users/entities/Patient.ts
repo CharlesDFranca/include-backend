@@ -10,9 +10,9 @@ export class Patient extends AbstractUser {
     email: Email,
     private contact: string,
     password: string,
-    id?: string,
+    id: string,
   ) {
-    super({ name, email, password }, id!);
+    super({ name, email, password }, id);
   }
 
   get getContact(): string {
