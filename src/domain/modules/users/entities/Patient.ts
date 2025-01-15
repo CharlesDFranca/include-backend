@@ -1,7 +1,10 @@
+import { Appointment } from "../../appointments/entities/Appointment";
 import { Email } from "../value-objects/Email";
 import { AbstractUser } from "./AbstractUser";
 
 export class Patient extends AbstractUser {
+  private appointments: Appointment[] = [];
+
   constructor(
     name: string,
     email: Email,
@@ -18,5 +21,9 @@ export class Patient extends AbstractUser {
 
   set setContact(contact: string) {
     this.contact = contact;
+  }
+
+  get getAppointments() {
+    return this.appointments;
   }
 }
