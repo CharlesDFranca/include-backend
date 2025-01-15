@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+
+import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/patients/DeletePatientUseCase";
+import { FindAllPatientsUseCase } from "../../domain/modules/users/use-cases/patients/FindAllPatientsUseCase";
+import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/patients/FindPatientByIDUseCase";
+import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
 import {
   CreatePatientInput,
   CreatePatientUseCase,
-} from "../../domain/modules/users/use-cases/CreatePatientUseCase";
-import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/DeletePatientUseCase";
-import { FindAllPatientsUseCase } from "../../domain/modules/users/use-cases/FindAllPatientsUseCase";
-import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/FindPatientByIDUseCase";
-import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
+} from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
 
 export class PatientController {
   constructor(

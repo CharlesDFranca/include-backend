@@ -1,6 +1,6 @@
 import { Patient } from "../../../../domain/modules/users/entities/Patient";
 import { IPatientRepository } from "../../../../domain/modules/users/repositories/IPatientRepository";
-import { CreatePatientInput } from "../../../../domain/modules/users/use-cases/CreatePatientUseCase";
+import { CreatePatientInput } from "../../../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
 import { Email } from "../../../../domain/modules/users/value-objects/Email";
 import { PatientModel } from "../models/PatientModel";
 

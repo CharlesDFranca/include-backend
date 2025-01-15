@@ -1,5 +1,5 @@
 import { Patient } from "../entities/Patient";
-import { CreatePatientInput } from "../use-cases/CreatePatientUseCase";
+import { CreatePatientInput } from "../use-cases/patients/CreatePatientUseCase";
 
 export interface IPatientRepository {
   create(patientData: CreatePatientInput): Promise<Patient>;

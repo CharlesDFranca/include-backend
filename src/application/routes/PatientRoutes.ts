@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { PatientController } from "../controllers/PatientControllers";
 import { PatientRepository } from "../../infra/modules/users/repositories/PatientRepository";
-import { CreatePatientUseCase } from "../../domain/modules/users/use-cases/CreatePatientUseCase";
-import { FindAllPatientsUseCase } from "../../domain/modules/users/use-cases/FindAllPatientsUseCase";
-import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/FindPatientByIDUseCase";
-import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/DeletePatientUseCase";
+import { FindAllPatientsUseCase } from "../../domain/modules/users/use-cases/patients/FindAllPatientsUseCase";
+import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/patients/FindPatientByIDUseCase";
+import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/patients/DeletePatientUseCase";
+import { CreatePatientUseCase } from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
 
 const patientRoutes = express.Router();
 
