@@ -8,7 +8,7 @@ import { FindAllDoctorsUseCase } from "../../domain/modules/users/use-cases/doct
 import { FindDoctorByIDUseCase } from "../../domain/modules/users/use-cases/doctors/FindDoctorByIDUseCase";
 import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
 
-export class DoctorController {
+export class DoctorControllers {
   constructor(
     private readonly createDoctorUseCase: CreateDoctorUseCase,
     private readonly findDoctorByIDUseCase: FindDoctorByIDUseCase,

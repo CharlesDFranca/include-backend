@@ -16,7 +16,7 @@ export class DoctorRepository implements IDoctorRepository {
     const doctorDocument = await DoctorModel.create({
       name,
       email,
-      availability,
+      availability: availability.getAvailability(),
       password,
       specialty,
     });
