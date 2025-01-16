@@ -1,5 +1,6 @@
-import express from "express";
+import "express-async-errors";
 import "dotenv/config";
+import express from "express";
 import { MongoClient } from "./infra/database/MongoClient";
 import { patientRoutes } from "./application/routes/PatientRoutes";
 import { doctorRoutes } from "./application/routes/DoctorRoutes";
