@@ -17,104 +17,64 @@ export class DoctorControllers {
   ) {}
 
   async create(req: Request, res: Response) {
-    try {
-      const { name, email, specialty, availability, password }: CreateDoctorInput = req.body;
+    const { name, email, specialty, availability, password }: CreateDoctorInput = req.body;
 
-      if (!name || !email || !specialty || !availability || !password) {
-        throw new MissingRequiredFieldsError("Missing required fields");
-      }
-
-      const doctor = await this.createDoctorUseCase.execute({
-        name,
-        email,
-        availability,
-        password,
-        specialty,
-      });
-
-      res.status(201).json({
-        id: doctor.getID,
-        name: doctor.getName,
-        email: doctor.getEmail,
-        specialty: doctor.getSpecialty,
-        availability: doctor.getAvailability,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json({ error: error.message || "Internal Server Error" });
-        return;
-      }
-
-      res.status(500).json({ error: error || "Internal Server Error" });
-      return;
+    if (!name || !email || !specialty || !availability || !password) {
+      throw new MissingRequiredFieldsError("Missing required fields");
     }
+
+    const doctor = await this.createDoctorUseCase.execute({
+      name,
+      email,
+      availability,
+      password,
+      specialty,
+    });
+
+    res.status(201).json({
+      id: doctor.getID,
+      name: doctor.getName,
+      email: doctor.getEmail,
+      specialty: doctor.getSpecialty,
+      availability: doctor.getAvailability,
+    });
   }
 
   async findByID(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      const doctor = await this.findDoctorByIDUseCase.execute(id);
+    const doctor = await this.findDoctorByIDUseCase.execute(id);
 
-      res.status(200).json({
+    res.status(200).json({
+      id: doctor.getID,
+      name: doctor.getName,
+      email: doctor.getEmail,
+      specialty: doctor.getSpecialty,
+      availability: doctor.getAvailability,
+    });
+  }
+
+  async findAll(req: Request, res: Response) {
+    const doctors = await this.findAllDoctorsUseCase.execute();
+
+    const doctorsWithoutPass = doctors!.map((doctor) => {
+      return {
         id: doctor.getID,
         name: doctor.getName,
         email: doctor.getEmail,
         specialty: doctor.getSpecialty,
         availability: doctor.getAvailability,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json({ error: error.message || "Internal Server Error" });
-        return;
-      }
+      };
+    });
 
-      res.status(500).json({ error: error || "Internal Server Error" });
-      return;
-    }
-  }
-
-  async findAll(req: Request, res: Response) {
-    try {
-      const doctors = await this.findAllDoctorsUseCase.execute();
-
-      const doctorsWithoutPass = doctors!.map((doctor) => {
-        return {
-          id: doctor.getID,
-          name: doctor.getName,
-          email: doctor.getEmail,
-          specialty: doctor.getSpecialty,
-          availability: doctor.getAvailability,
-        };
-      });
-
-      res.status(200).json(doctorsWithoutPass);
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json({ error: error.message || "Internal Server Error" });
-        return;
-      }
-
-      res.status(500).json({ error: error || "Internal Server Error" });
-      return;
-    }
+    res.status(200).json(doctorsWithoutPass);
   }
 
   async delete(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      await this.deleteDoctorUseCase.execute(id);
+    await this.deleteDoctorUseCase.execute(id);
 
-      res.status(204).json({});
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(500).json({ error: error.message || "Internal Server Error" });
-        return;
-      }
-
-      res.status(500).json({ error: error || "Internal Server Error" });
-      return;
-    }
+    res.status(204).json({});
   }
 }
