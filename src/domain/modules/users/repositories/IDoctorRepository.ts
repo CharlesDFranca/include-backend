@@ -6,5 +6,5 @@ export interface IDoctorRepository {
   findByID(id: string): Promise<Doctor | null>;
   findByEmail(email: string): Promise<Doctor | null>;
   findAll(): Promise<Doctor[] | null>;
-  delete(id: string): Promise<boolean>;
+  delete(id: string): Promise<void>;
 }

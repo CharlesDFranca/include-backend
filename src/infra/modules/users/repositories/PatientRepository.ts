@@ -74,14 +74,7 @@ export class PatientRepository implements IPatientRepository {
     );
   }
 
-  async delete(id: string): Promise<boolean> {
-    const patient = await PatientModel.findById(id);
-
-    if (!patient) {
-      return false;
-    }
-
+  async delete(id: string): Promise<void> {
     await PatientModel.deleteOne({ _id: id });
-    return true;
   }
 }

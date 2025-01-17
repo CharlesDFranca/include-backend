@@ -89,14 +89,7 @@ export class DoctorRepository implements IDoctorRepository {
     );
   }
 
-  async delete(id: string): Promise<boolean> {
-    const doctor = await DoctorModel.findById(id);
-
-    if (!doctor) {
-      return false;
-    }
-
+  async delete(id: string): Promise<void> {
     await DoctorModel.deleteOne({ _id: id });
-    return true;
   }
 }

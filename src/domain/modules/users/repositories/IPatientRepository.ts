@@ -6,5 +6,5 @@ export interface IPatientRepository {
   findByID(id: string): Promise<Patient | null>;
   findByEmail(email: string): Promise<Patient | null>;
   findAll(): Promise<Patient[] | null>;
-  delete(id: string): Promise<boolean>;
+  delete(id: string): Promise<void>;
 }
