@@ -31,7 +31,7 @@ const appointmentControllers = new AppointmentControllers(
   deleteAppointmentUseCase,
 );
 
-appointmentRoutes.use(authHandler);
+appointmentRoutes.use("/appointments", authHandler);
 
 appointmentRoutes
   .route("/appointments")

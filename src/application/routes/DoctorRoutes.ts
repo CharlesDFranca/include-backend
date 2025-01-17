@@ -38,7 +38,7 @@ doctorRoutes
   .route("/auth/doctors")
   .post((req: Request, res: Response) => doctorControllers.auth(req, res));
 
-doctorRoutes.use(authHandler)
+doctorRoutes.use("/doctors", authHandler)
 
 doctorRoutes
   .route("/doctors/:id")
