@@ -4,12 +4,14 @@ import { IDoctorRepository } from "../../../../domain/modules/users/repositories
 import { Availability } from "../../../../domain/modules/users/value-objects/Availability";
 import { Email } from "../../../../domain/modules/users/value-objects/Email";
 import { DoctorModel } from "../models/DoctorModel";
+import { CRM } from "../../../../domain/modules/users/value-objects/CRM";
 
 export class DoctorRepository implements IDoctorRepository {
   async create({
     name,
     email,
     contact,
+    crm,
     availability,
     password,
     specialty,
@@ -18,6 +20,7 @@ export class DoctorRepository implements IDoctorRepository {
       name,
       email,
       contact,
+      CRM: crm,
       availability: availability.getAvailability(),
       password,
       specialty,
@@ -25,11 +28,14 @@ export class DoctorRepository implements IDoctorRepository {
 
     await doctorDocument.save();
 
+    const newCRM = new CRM(`${doctorDocument.CRM?.value}/${doctorDocument.CRM?.uf.toUpperCase()}`);
+
     const doctor = new Doctor(
       doctorDocument._id.toString(),
       doctorDocument.name,
       new Email(doctorDocument.email),
       doctorDocument.contact,
+      newCRM,
       doctorDocument.specialty,
       new Availability(doctorDocument.availability),
       doctorDocument.password,
@@ -45,11 +51,14 @@ export class DoctorRepository implements IDoctorRepository {
       return null;
     }
 
+    const newCRM = new CRM(`${doctorData.CRM?.value}/${doctorData.CRM?.uf.toUpperCase()}`);
+
     return new Doctor(
       doctorData._id.toString(),
       doctorData.name,
       new Email(doctorData.email),
       doctorData.contact,
+      newCRM,
       doctorData.specialty,
       new Availability(doctorData.availability),
       doctorData.password,
@@ -63,11 +72,14 @@ export class DoctorRepository implements IDoctorRepository {
       return null;
     }
 
+    const newCRM = new CRM(`${doctorData.CRM?.value}/${doctorData.CRM?.uf.toUpperCase()}`);
+
     return new Doctor(
       doctorData?._id.toString(),
       doctorData.name,
       new Email(doctorData.email),
       doctorData.contact,
+      newCRM,
       doctorData.specialty,
       new Availability(doctorData.availability),
       doctorData.password,
@@ -81,18 +93,20 @@ export class DoctorRepository implements IDoctorRepository {
       return null;
     }
 
-    return doctorsData.map(
-      (doctor) =>
-        new Doctor(
-          doctor._id.toString(),
-          doctor.name,
-          new Email(doctor.email),
-          doctor.contact,
-          doctor.specialty,
-          new Availability(doctor.availability),
-          doctor.password,
-        ),
-    );
+    return doctorsData.map((doctor) => {
+      const newCRM = new CRM(`${doctor.CRM?.value}/${doctor.CRM?.uf.toUpperCase()}`);
+
+      return new Doctor(
+        doctor._id.toString(),
+        doctor.name,
+        new Email(doctor.email),
+        doctor.contact,
+        newCRM,
+        doctor.specialty,
+        new Availability(doctor.availability),
+        doctor.password,
+      );
+    });
   }
 
   async delete(id: string): Promise<void> {

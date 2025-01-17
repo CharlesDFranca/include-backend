@@ -4,6 +4,7 @@ import { NotFoundError } from "../../../domain/common/errors/NotFoundError";
 import { BadRequestError } from "../../../domain/common/errors/BadRequestError";
 import { UnauthorizedError } from "../../../domain/common/errors/UnauthorizedError";
 import { InvalidCredentialsError } from "../../../domain/common/errors/InvalidCredentialsError";
+import { InvalidDataError } from "../../../domain/common/errors/InvalidDataError";
 
 export const errorHandler: ErrorRequestHandler = (
   err,
@@ -42,6 +43,13 @@ export const errorHandler: ErrorRequestHandler = (
 
   if (err instanceof InvalidCredentialsError) {
     res.status(409).json({
+      error: err.message || "Invalid credentials provided.",
+    });
+    return;
+  }
+
+  if (err instanceof InvalidDataError) {
+    res.status(400).json({
       error: err.message || "Invalid credentials provided.",
     });
     return;

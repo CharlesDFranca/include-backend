@@ -19,9 +19,10 @@ export class DoctorControllers {
   ) {}
 
   async create(req: Request, res: Response) {
-    const { name, email, contact, specialty, availability, password }: CreateDoctorInput = req.body;
+    const { name, email, contact, crm, specialty, availability, password }: CreateDoctorInput =
+      req.body;
 
-    if (!name || !email || !contact || !specialty || !availability || !password) {
+    if (!name || !email || !contact || !crm || !specialty || !availability || !password) {
       throw new MissingRequiredFieldsError("Missing required fields");
     }
 
@@ -29,6 +30,7 @@ export class DoctorControllers {
       name,
       email,
       contact,
+      crm,
       availability,
       password,
       specialty,
@@ -39,6 +41,7 @@ export class DoctorControllers {
       name: doctor.getName,
       email: doctor.getEmail,
       contact: doctor.getContact,
+      CRM: doctor.getCRM,
       specialty: doctor.getSpecialty,
       availability: doctor.getAvailability,
     });
@@ -66,6 +69,7 @@ export class DoctorControllers {
       name: doctor.getName,
       email: doctor.getEmail,
       contact: doctor.getContact,
+      CRM: doctor.getCRM,
       specialty: doctor.getSpecialty,
       availability: doctor.getAvailability,
     });
@@ -80,6 +84,7 @@ export class DoctorControllers {
         name: doctor.getName,
         email: doctor.getEmail,
         contact: doctor.getContact,
+        CRM: doctor.getCRM,
         specialty: doctor.getSpecialty,
         availability: doctor.getAvailability,
       };

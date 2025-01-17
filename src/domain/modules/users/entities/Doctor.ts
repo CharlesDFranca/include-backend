@@ -2,6 +2,7 @@ import { AbstractUser } from "./AbstractUser";
 import { Email } from "../value-objects/Email";
 import { Availability } from "../value-objects/Availability";
 import { Appointment } from "../../appointments/entities/Appointment";
+import { CRM } from "../value-objects/CRM";
 
 export class Doctor extends AbstractUser {
   private appointments: Appointment[] = [];
@@ -11,6 +12,7 @@ export class Doctor extends AbstractUser {
     name: string,
     email: Email,
     private contact: string,
+    private CRM: CRM,
     private specialty: string,
     private availability: Availability,
     password: string,
@@ -36,5 +38,9 @@ export class Doctor extends AbstractUser {
 
   get getContact() {
     return this.contact;
+  }
+
+  get getCRM() {
+    return this.CRM;
   }
 }
