@@ -6,7 +6,7 @@ import { IAppointmentRepository } from "../../../../domain/modules/appointments/
 import { AppointmentModel } from "../models/AppointmentModel";
 
 export class AppointmentRepository implements IAppointmentRepository {
-  async create({ patientID, doctorID, endsAt, startsAt }: AppointmentProps): Promise<Appointment> {
+  async create({ patientID, doctorID, startsAt, endsAt }: AppointmentProps): Promise<Appointment> {
     const appointmentDocument = await AppointmentModel.create({
       doctorID,
       patientID,
@@ -21,7 +21,6 @@ export class AppointmentRepository implements IAppointmentRepository {
       appointmentDocument.patientID.toString(),
       appointmentDocument.doctorID.toString(),
       appointmentDocument.startsAt,
-      appointmentDocument.endsAt,
     );
 
     return appointment;
@@ -39,7 +38,6 @@ export class AppointmentRepository implements IAppointmentRepository {
       appointmentData.patientID.toString(),
       appointmentData.doctorID.toString(),
       appointmentData.startsAt,
-      appointmentData.endsAt,
     );
 
     return appointment;
@@ -58,7 +56,6 @@ export class AppointmentRepository implements IAppointmentRepository {
         appointment.patientID.toString(),
         appointment.doctorID.toString(),
         appointment.startsAt,
-        appointment.endsAt,
       );
     });
 

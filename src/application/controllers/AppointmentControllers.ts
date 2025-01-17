@@ -14,15 +14,14 @@ export class AppointmentControllers {
   ) {}
 
   async create(req: Request, res: Response) {
-    const { patientID, doctorID, endsAt, startsAt } = req.body;
+    const { patientID, doctorID, startsAt } = req.body;
 
-    if (!patientID || !doctorID || !endsAt || !startsAt) {
+    if (!patientID || !doctorID || !startsAt) {
       throw new MissingRequiredFieldsError("Missing Required Fields");
     }
 
     const appointment = await this.createAppointmentUseCase.execute({
       doctorID,
-      endsAt,
       patientID,
       startsAt,
     });

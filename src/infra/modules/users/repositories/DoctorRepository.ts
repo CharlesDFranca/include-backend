@@ -94,6 +94,8 @@ export class DoctorRepository implements IDoctorRepository {
     }
 
     return doctorsData.map((doctor) => {
+      console.log(doctor.CRM?.value);
+      console.log(doctor.CRM?.uf.toUpperCase());
       const newCRM = new CRM(`${doctor.CRM?.value}/${doctor.CRM?.uf.toUpperCase()}`);
 
       return new Doctor(

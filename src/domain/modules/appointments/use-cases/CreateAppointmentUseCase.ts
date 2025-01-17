@@ -1,8 +1,13 @@
 import { NotFoundError } from "../../../common/errors/NotFoundError";
 import { IDoctorRepository } from "../../users/repositories/IDoctorRepository";
 import { IPatientRepository } from "../../users/repositories/IPatientRepository";
-import { AppointmentProps } from "../entities/Appointment";
 import { IAppointmentRepository } from "../repositories/IAppointmentsRepositories.";
+
+export type CreateAppointmentInput = {
+  patientID: string;
+  doctorID: string;
+  startsAt: Date;
+};
 
 export class CreateAppointmentUseCase {
   constructor(
@@ -11,7 +16,7 @@ export class CreateAppointmentUseCase {
     private readonly doctorRepository: IDoctorRepository,
   ) {}
 
-  async execute({ doctorID, patientID, startsAt, endsAt }: AppointmentProps) {
+  async execute({ doctorID, patientID, startsAt }: CreateAppointmentInput) {
     const pacient = await this.patientRepository.findByID(patientID);
 
     if (!pacient) {
@@ -23,6 +28,8 @@ export class CreateAppointmentUseCase {
     if (!doctor) {
       throw new NotFoundError("Doctor not found");
     }
+
+    const endsAt = new Date(new Date(startsAt).getTime() + 30 * 60 * 1000);
 
     const appointment = await this.appointmentRepository.create({
       doctorID,

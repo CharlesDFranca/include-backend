@@ -1,5 +1,4 @@
 import { AbstractEntity } from "../../../common/entities/AbstractEntity";
-import { MissingRequiredFieldsError } from "../../../common/errors/MissingRequiredFieldsError";
 import { Doctor } from "../../users/entities/Doctor";
 import { Patient } from "../../users/entities/Patient";
 
@@ -11,16 +10,8 @@ export type AppointmentProps = {
 };
 
 export class Appointment extends AbstractEntity<AppointmentProps> {
-  constructor(id: string, patientID: string, doctorID: string, startsAt: Date, endsAt: Date) {
-    if (!patientID || !doctorID) {
-      throw new MissingRequiredFieldsError("O ID do paciente e do doutor é requerido!");
-    }
-
-    if (endsAt.getTime() <= startsAt.getTime()) {
-      throw new Error(
-        "A data de término da consulta não pode ser anterior ou igual da data de início.",
-      );
-    }
+  constructor(id: string, patientID: string, doctorID: string, startsAt: Date) {
+    const endsAt = new Date(new Date(startsAt).getTime() + 30 * 60 * 1000);
 
     super({ patientID, doctorID, endsAt, startsAt }, id);
   }
