@@ -8,6 +8,7 @@ import { CreatePatientUseCase } from "../../domain/modules/users/use-cases/patie
 import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
 import { AuthPatientUseCase } from "../../domain/modules/users/use-cases/patients/AuthPatientUseCase";
 import { BCryptHashProvider } from "../../infra/modules/auth/BCryptHashProvider";
+import { authHandler } from "../../infra/utils/middlewares/AuthHandler";
 
 const patientRoutes = express.Router();
 
@@ -36,6 +37,8 @@ patientRoutes
 patientRoutes
   .route("/auth/patients")
   .post((req: Request, res: Response) => patientControllers.auth(req, res));
+
+patientRoutes.use(authHandler);
 
 patientRoutes
   .route("/patients/:id")

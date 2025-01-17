@@ -7,6 +7,7 @@ import { FindAllAppointmentsUseCase } from "../../domain/modules/appointments/us
 import { FindAppointmentByIDUseCase } from "../../domain/modules/appointments/use-cases/FindAppointmentByIDUseCase";
 import { DeleteAppointmentUseCase } from "../../domain/modules/appointments/use-cases/DeleteAppointmentUseCase";
 import { AppointmentControllers } from "../controllers/AppointmentControllers";
+import { authHandler } from "../../infra/utils/middlewares/AuthHandler";
 
 const appointmentRoutes = express.Router();
 
@@ -29,6 +30,8 @@ const appointmentControllers = new AppointmentControllers(
   findAllAppointmentsUseCase,
   deleteAppointmentUseCase,
 );
+
+appointmentRoutes.use(authHandler);
 
 appointmentRoutes
   .route("/appointments")

@@ -5,9 +5,10 @@ import { FindAllDoctorsUseCase } from "../../domain/modules/users/use-cases/doct
 import { FindDoctorByIDUseCase } from "../../domain/modules/users/use-cases/doctors/FindDoctorByIDUseCase";
 import { DeleteDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/DeleteDoctorUseCase";
 import { DoctorControllers } from "../controllers/DoctorControllers";
-import { BCryptHashProvider } from "../../infra/modules/auth/BcryptHashProvider";
+import { BCryptHashProvider } from "../../infra/modules/auth/BCryptHashProvider";
 import { AuthDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/AuthDoctorUseCase";
 import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
+import { authHandler } from "../../infra/utils/middlewares/AuthHandler";
 
 const doctorRoutes = express.Router();
 
@@ -36,6 +37,8 @@ doctorRoutes
 doctorRoutes
   .route("/auth/doctors")
   .post((req: Request, res: Response) => doctorControllers.auth(req, res));
+
+doctorRoutes.use(authHandler)
 
 doctorRoutes
   .route("/doctors/:id")
