@@ -7,10 +7,12 @@ import {
   CreatePatientInput,
   CreatePatientUseCase,
 } from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
+import { AuthPatientUseCase } from "../../domain/modules/users/use-cases/patients/AuthPatientUseCase";
 
 export class PatientController {
   constructor(
     private readonly createPatientUseCase: CreatePatientUseCase,
+    private readonly authPatientUseCase: AuthPatientUseCase,
     private readonly findPatientByIDUseCase: FindPatientByIDUseCase,
     private readonly findAllPatientsUseCase: FindAllPatientsUseCase,
     private readonly deletePatientUseCase: DeletePatientUseCase,
@@ -31,6 +33,20 @@ export class PatientController {
       email: patient.getEmail,
       contact: patient.getContact,
     });
+  }
+
+  async auth(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    console.log({ email, password });
+
+    if (!email || !password) {
+      throw new MissingRequiredFieldsError("Missing Required Fields");
+    }
+
+    const access_token = await this.authPatientUseCase.execute({ email, password });
+
+    res.status(200).json({ token: access_token });
   }
 
   async findByID(req: Request, res: Response) {

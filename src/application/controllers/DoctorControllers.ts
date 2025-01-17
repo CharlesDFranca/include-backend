@@ -7,10 +7,12 @@ import { DeleteDoctorUseCase } from "../../domain/modules/users/use-cases/doctor
 import { FindAllDoctorsUseCase } from "../../domain/modules/users/use-cases/doctors/FindAllDoctorsUseCase";
 import { FindDoctorByIDUseCase } from "../../domain/modules/users/use-cases/doctors/FindDoctorByIDUseCase";
 import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
+import { AuthDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/AuthDoctorUseCase";
 
 export class DoctorControllers {
   constructor(
     private readonly createDoctorUseCase: CreateDoctorUseCase,
+    private readonly authDoctorUseCase: AuthDoctorUseCase,
     private readonly findDoctorByIDUseCase: FindDoctorByIDUseCase,
     private readonly findAllDoctorsUseCase: FindAllDoctorsUseCase,
     private readonly deleteDoctorUseCase: DeleteDoctorUseCase,
@@ -38,6 +40,18 @@ export class DoctorControllers {
       specialty: doctor.getSpecialty,
       availability: doctor.getAvailability,
     });
+  }
+
+  async auth(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      throw new MissingRequiredFieldsError("Missing Required Fields");
+    }
+
+    const access_token = await this.authDoctorUseCase.execute({ email, password });
+
+    res.status(200).json({ token: access_token });
   }
 
   async findByID(req: Request, res: Response) {

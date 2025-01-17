@@ -6,19 +6,24 @@ import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/pat
 import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/patients/DeletePatientUseCase";
 import { CreatePatientUseCase } from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
 import { BCryptHashProvider } from "../../infra/modules/auth/BcryptHashProvider";
+import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
+import { AuthPatientUseCase } from "../../domain/modules/users/use-cases/patients/AuthPatientUseCase";
 
 const patientRoutes = express.Router();
 
 const patientRepository = new PatientRepository();
 const hashProvider = new BCryptHashProvider();
+const authProvider = new JWTAuthProvider();
 
 const createPatientUseCase = new CreatePatientUseCase(patientRepository, hashProvider);
+const authPatientUseCase = new AuthPatientUseCase(patientRepository, authProvider, hashProvider);
 const findAllPatientsUseCase = new FindAllPatientsUseCase(patientRepository);
 const findPatientByIDUseCase = new FindPatientByIDUseCase(patientRepository);
 const deletePatientUseCase = new DeletePatientUseCase(patientRepository);
 
 const patientControllers = new PatientController(
   createPatientUseCase,
+  authPatientUseCase,
   findPatientByIDUseCase,
   findAllPatientsUseCase,
   deletePatientUseCase,
@@ -27,6 +32,10 @@ const patientControllers = new PatientController(
 patientRoutes
   .route("/patients")
   .post((req: Request, res: Response) => patientControllers.create(req, res));
+
+patientRoutes
+  .route("/auth/patients")
+  .post((req: Request, res: Response) => patientControllers.auth(req, res));
 
 patientRoutes
   .route("/patients/:id")
