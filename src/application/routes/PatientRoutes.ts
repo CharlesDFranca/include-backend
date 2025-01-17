@@ -5,12 +5,14 @@ import { FindAllPatientsUseCase } from "../../domain/modules/users/use-cases/pat
 import { FindPatientByIDUseCase } from "../../domain/modules/users/use-cases/patients/FindPatientByIDUseCase";
 import { DeletePatientUseCase } from "../../domain/modules/users/use-cases/patients/DeletePatientUseCase";
 import { CreatePatientUseCase } from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
+import { BCryptHashProvider } from "../../infra/modules/auth/BcryptHashProvider";
 
 const patientRoutes = express.Router();
 
 const patientRepository = new PatientRepository();
+const hashProvider = new BCryptHashProvider();
 
-const createPatientUseCase = new CreatePatientUseCase(patientRepository);
+const createPatientUseCase = new CreatePatientUseCase(patientRepository, hashProvider);
 const findAllPatientsUseCase = new FindAllPatientsUseCase(patientRepository);
 const findPatientByIDUseCase = new FindPatientByIDUseCase(patientRepository);
 const deletePatientUseCase = new DeletePatientUseCase(patientRepository);

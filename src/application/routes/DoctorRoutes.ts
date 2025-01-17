@@ -5,12 +5,14 @@ import { FindAllDoctorsUseCase } from "../../domain/modules/users/use-cases/doct
 import { FindDoctorByIDUseCase } from "../../domain/modules/users/use-cases/doctors/FindDoctorByIDUseCase";
 import { DeleteDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/DeleteDoctorUseCase";
 import { DoctorControllers } from "../controllers/DoctorControllers";
+import { BCryptHashProvider } from "../../infra/modules/auth/BcryptHashProvider";
 
 const doctorRoutes = express.Router();
 
 const doctorRepository = new DoctorRepository();
+const hashProvider = new BCryptHashProvider();
 
-const createDoctorUseCase = new CreateDoctorUseCase(doctorRepository);
+const createDoctorUseCase = new CreateDoctorUseCase(doctorRepository, hashProvider);
 const findAllDoctorsUseCase = new FindAllDoctorsUseCase(doctorRepository);
 const findDoctorByIDUseCase = new FindDoctorByIDUseCase(doctorRepository);
 const deleteDoctorUseCase = new DeleteDoctorUseCase(doctorRepository);

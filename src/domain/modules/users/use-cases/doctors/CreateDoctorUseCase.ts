@@ -1,4 +1,5 @@
 import { BadRequestError } from "../../../../common/errors/BadRequestError";
+import { IHashProvider } from "../../../auth/IHashProvider";
 import { IDoctorRepository } from "../../repositories/IDoctorRepository";
 import { Availability, TimeInterval } from "../../value-objects/Availability";
 import { Email } from "../../value-objects/Email";
@@ -12,7 +13,10 @@ export type CreateDoctorInput = {
 };
 
 export class CreateDoctorUseCase {
-  constructor(private readonly doctorRepository: IDoctorRepository) {}
+  constructor(
+    private readonly doctorRepository: IDoctorRepository,
+    private readonly hashProvider: IHashProvider,
+  ) {}
 
   async execute({
     name,
@@ -27,11 +31,13 @@ export class CreateDoctorUseCase {
       throw new BadRequestError("Invalid email");
     }
 
+    const passwordHash = await this.hashProvider.hash(password);
+
     const doctor = await this.doctorRepository.create({
       name,
       email: new Email(email),
       availability: new Availability(availabilityData),
-      password,
+      password: passwordHash,
       specialty,
     });
 
