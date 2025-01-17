@@ -7,6 +7,7 @@ import { Email } from "../../value-objects/Email";
 export type CreateDoctorInput = {
   name: string;
   email: string;
+  contact: string;
   specialty: string;
   availability: Record<string, TimeInterval[]>;
   password: string;
@@ -21,6 +22,7 @@ export class CreateDoctorUseCase {
   async execute({
     name,
     email,
+    contact,
     specialty,
     password,
     availability: availabilityData,
@@ -36,6 +38,7 @@ export class CreateDoctorUseCase {
     const doctor = await this.doctorRepository.create({
       name,
       email: new Email(email),
+      contact,
       availability: new Availability(availabilityData),
       password: passwordHash,
       specialty,

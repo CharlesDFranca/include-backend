@@ -15,12 +15,16 @@ const AvailabilitySchema = new Schema({
   sunday: [TimeIntervalSchema],
 });
 
-const DoctorSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  specialty: { type: String, required: true },
-  availability: { type: AvailabilitySchema, required: true },
-});
+const DoctorSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    contact: { type: String, required: true },
+    password: { type: String, required: true },
+    specialty: { type: String, required: true },
+    availability: { type: AvailabilitySchema, required: true },
+  },
+  { timestamps: true },
+);
 
 export const DoctorModel = model("Doctor", DoctorSchema);

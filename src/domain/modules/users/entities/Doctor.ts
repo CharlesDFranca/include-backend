@@ -10,6 +10,7 @@ export class Doctor extends AbstractUser {
     id: string,
     name: string,
     email: Email,
+    private contact: string,
     private specialty: string,
     private availability: Availability,
     password: string,
@@ -31,5 +32,9 @@ export class Doctor extends AbstractUser {
 
   get getAppointments() {
     return this.appointments;
+  }
+
+  get getContact() {
+    return this.contact;
   }
 }
