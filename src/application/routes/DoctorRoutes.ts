@@ -9,10 +9,12 @@ import { BCryptHashProvider } from "../../infra/modules/auth/BCryptHashProvider"
 import { AuthDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/AuthDoctorUseCase";
 import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
 import { authHandler } from "../../infra/utils/middlewares/AuthHandler";
+import { AppointmentRepository } from "../../infra/modules/appointments/repositories/AppointmentRepository";
 
 const doctorRoutes = express.Router();
 
 const doctorRepository = new DoctorRepository();
+const appointmentRepository = new AppointmentRepository();
 const hashProvider = BCryptHashProvider.Instance;
 const authProvider = JWTAuthProvider.Instance;
 
@@ -20,7 +22,7 @@ const createDoctorUseCase = new CreateDoctorUseCase(doctorRepository, hashProvid
 const authDoctorUseCase = new AuthDoctorUseCase(doctorRepository, authProvider, hashProvider);
 const findAllDoctorsUseCase = new FindAllDoctorsUseCase(doctorRepository);
 const findDoctorByIDUseCase = new FindDoctorByIDUseCase(doctorRepository);
-const deleteDoctorUseCase = new DeleteDoctorUseCase(doctorRepository);
+const deleteDoctorUseCase = new DeleteDoctorUseCase(doctorRepository, appointmentRepository);
 
 const doctorControllers = new DoctorControllers(
   createDoctorUseCase,
@@ -38,7 +40,7 @@ doctorRoutes
   .route("/auth/doctors")
   .post((req: Request, res: Response) => doctorControllers.auth(req, res));
 
-doctorRoutes.use("/doctors", authHandler)
+doctorRoutes.use("/doctors", authHandler);
 
 doctorRoutes
   .route("/doctors/:id")

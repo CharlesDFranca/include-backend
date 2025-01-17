@@ -5,4 +5,6 @@ export interface IAppointmentRepository {
   findByID(id: string): Promise<Appointment | null>;
   findAll(): Promise<Appointment[] | null>;
   delete(id: string): Promise<void>;
+  deleteByPatientID(patientID: string): Promise<void>;
+  deleteByDoctorID(doctorID: string): Promise<void>;
 }

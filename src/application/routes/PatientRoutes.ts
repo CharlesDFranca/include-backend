@@ -9,10 +9,12 @@ import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
 import { AuthPatientUseCase } from "../../domain/modules/users/use-cases/patients/AuthPatientUseCase";
 import { BCryptHashProvider } from "../../infra/modules/auth/BCryptHashProvider";
 import { authHandler } from "../../infra/utils/middlewares/AuthHandler";
+import { AppointmentRepository } from "../../infra/modules/appointments/repositories/AppointmentRepository";
 
 const patientRoutes = express.Router();
 
 const patientRepository = new PatientRepository();
+const appointmentRepository = new AppointmentRepository();
 const hashProvider = BCryptHashProvider.Instance;
 const authProvider = JWTAuthProvider.Instance;
 
@@ -20,7 +22,7 @@ const createPatientUseCase = new CreatePatientUseCase(patientRepository, hashPro
 const authPatientUseCase = new AuthPatientUseCase(patientRepository, authProvider, hashProvider);
 const findAllPatientsUseCase = new FindAllPatientsUseCase(patientRepository);
 const findPatientByIDUseCase = new FindPatientByIDUseCase(patientRepository);
-const deletePatientUseCase = new DeletePatientUseCase(patientRepository);
+const deletePatientUseCase = new DeletePatientUseCase(patientRepository, appointmentRepository);
 
 const patientControllers = new PatientController(
   createPatientUseCase,
