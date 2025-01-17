@@ -12,8 +12,8 @@ import { JWTAuthProvider } from "../../infra/modules/auth/JWTAuthProvider";
 const doctorRoutes = express.Router();
 
 const doctorRepository = new DoctorRepository();
-const hashProvider = new BCryptHashProvider();
-const authProvider = new JWTAuthProvider();
+const hashProvider = BCryptHashProvider.Instance;
+const authProvider = JWTAuthProvider.Instance;
 
 const createDoctorUseCase = new CreateDoctorUseCase(doctorRepository, hashProvider);
 const authDoctorUseCase = new AuthDoctorUseCase(doctorRepository, authProvider, hashProvider);
