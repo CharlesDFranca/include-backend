@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
-import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
-import { NotFoundError } from "../../domain/common/errors/NotFoundError";
-import { BadRequestError } from "../../domain/common/errors/BadRequestError";
-import { UnauthorizedError } from "../../domain/common/errors/UnauthorizedError";
-import { InvalidCredentialsError } from "../../domain/common/errors/InvalidCredentialsError";
+import { MissingRequiredFieldsError } from "../../../domain/common/errors/MissingRequiredFieldsError";
+import { NotFoundError } from "../../../domain/common/errors/NotFoundError";
+import { BadRequestError } from "../../../domain/common/errors/BadRequestError";
+import { UnauthorizedError } from "../../../domain/common/errors/UnauthorizedError";
+import { InvalidCredentialsError } from "../../../domain/common/errors/InvalidCredentialsError";
 
 export const errorHandler: ErrorRequestHandler = (
   err,

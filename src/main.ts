@@ -5,7 +5,7 @@ import { MongoClient } from "./infra/database/MongoClient";
 import { patientRoutes } from "./application/routes/PatientRoutes";
 import { doctorRoutes } from "./application/routes/DoctorRoutes";
 import { appointmentRoutes } from "./application/routes/AppointmentRoutes";
-import { errorHandler } from "./infra/utils/ErrorHandler";
+import { errorHandler } from "./infra/utils/middlewares/ErrorHandler";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
