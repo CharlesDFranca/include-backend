@@ -1,4 +1,4 @@
-import { BadRequestError } from "../../../../common/errors/BadRequestError";
+import { InvalidCredentialsError } from "../../../../common/errors/InvalidCredentialsError";
 import { IHashProvider } from "../../../auth/IHashProvider";
 import { Patient } from "../../entities/Patient";
 import { IPatientRepository } from "../../repositories/IPatientRepository";
@@ -20,7 +20,7 @@ export class CreatePatientUseCase {
     const emailExists = await this.patientRepository.findByEmail(email);
 
     if (emailExists) {
-      throw new BadRequestError("Invalid email");
+      throw new InvalidCredentialsError("Invalid email");
     }
 
     const passwordHash = await this.hashProvider.hash(password);

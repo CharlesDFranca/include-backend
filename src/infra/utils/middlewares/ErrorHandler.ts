@@ -14,35 +14,35 @@ export const errorHandler: ErrorRequestHandler = (
 ) => {
   if (err instanceof MissingRequiredFieldsError) {
     res.status(400).json({
-      error: err.message || "Missing Required Fields",
+      error: err.message || "Missing Required Fields.",
     });
     return;
   }
 
   if (err instanceof NotFoundError) {
     res.status(404).json({
-      error: err.message || "Not Found",
+      error: err.message || "Resource Not Found.",
     });
     return;
   }
 
   if (err instanceof BadRequestError) {
     res.status(400).json({
-      error: err.message || "Not Found",
+      error: err.message || "Bad Request.",
     });
     return;
   }
 
   if (err instanceof UnauthorizedError) {
     res.status(401).json({
-      error: err.message || "Not Found",
+      error: err.message || "Unauthorized.",
     });
     return;
   }
 
   if (err instanceof InvalidCredentialsError) {
-    res.status(400).json({
-      error: err.message || "Not Found",
+    res.status(409).json({
+      error: err.message || "Invalid credentials provided.",
     });
     return;
   }

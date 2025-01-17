@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(patientRoutes);
 app.use(doctorRoutes);
+app.use(patientRoutes);
 app.use(appointmentRoutes);
 
 app.use(errorHandler);
