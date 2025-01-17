@@ -4,7 +4,7 @@ import {
   IAuthProvider,
   VerifyAuthKey,
 } from "../../../domain/modules/auth/IAuthProvider";
-import { InvalidCredentialsError } from "../../../domain/common/errors/InvalidCredentialsError";
+import { UnauthorizedError } from "../../../domain/common/errors/UnauthorizedError";
 
 export type DecodedToken = {
   sub: string;
@@ -25,7 +25,7 @@ export class JWTAuthProvider implements IAuthProvider {
 
   generateToken(id: string): GeneratedAuthKey {
     const access_token = jwt.sign({}, process.env.JWT_SECRET as string, {
-      expiresIn: process.env.JWT_EXPIRES_IN || "1d",
+      expiresIn: "1d",
       subject: id,
     });
 
@@ -37,7 +37,7 @@ export class JWTAuthProvider implements IAuthProvider {
 
       return { id };
     } catch {
-      throw new InvalidCredentialsError("Invalid credentials");
+      throw new UnauthorizedError("Invalid credentials");
     }
   }
 }
