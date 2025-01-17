@@ -1,3 +1,4 @@
+import { BadRequestError } from "../../../../common/errors/BadRequestError";
 import { IDoctorRepository } from "../../repositories/IDoctorRepository";
 import { Availability, TimeInterval } from "../../value-objects/Availability";
 import { Email } from "../../value-objects/Email";
@@ -20,6 +21,12 @@ export class CreateDoctorUseCase {
     password,
     availability: availabilityData,
   }: CreateDoctorInput) {
+    const emailExists = await this.doctorRepository.findByEmail(email);
+
+    if (emailExists) {
+      throw new BadRequestError("Invalid email");
+    }
+
     const doctor = await this.doctorRepository.create({
       name,
       email: new Email(email),
