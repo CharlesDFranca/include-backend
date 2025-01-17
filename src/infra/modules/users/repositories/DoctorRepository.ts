@@ -53,7 +53,7 @@ export class DoctorRepository implements IDoctorRepository {
   }
 
   async findByEmail(email: string): Promise<Doctor | null> {
-    return await DoctorModel.findOne({ $where: email });
+    return await DoctorModel.findOne({ email });
   }
 
   async findAll(): Promise<Doctor[] | null> {

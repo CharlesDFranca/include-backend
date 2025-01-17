@@ -59,7 +59,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async findByEmail(email: string): Promise<Patient | null> {
-    return await PatientModel.findOne({ $where: email });
+    return await PatientModel.findOne({ email });
   }
 
   async delete(id: string): Promise<boolean> {
