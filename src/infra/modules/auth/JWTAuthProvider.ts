@@ -25,7 +25,7 @@ export class JWTAuthProvider implements IAuthProvider {
 
   generateToken(id: string): GeneratedAuthKey {
     const access_token = jwt.sign({}, process.env.JWT_SECRET as string, {
-      expiresIn: "1d",
+      expiresIn: process.env.JWT_EXPIRES_IN,
       subject: id,
     });
 
