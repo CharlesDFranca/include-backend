@@ -10,13 +10,6 @@ export class Availability {
     this.availability = availability;
   }
 
-  addAvailability(day: string, start: string, end: string): void {
-    if (!this.availability[day]) {
-      this.availability[day] = [];
-    }
-    this.availability[day].push({ start, end });
-  }
-
   isAvailable(day: string, time: string): boolean {
     const dayAvailability = this.availability[day];
 
