@@ -36,6 +36,10 @@ export class Doctor extends AbstractUser {
     return this.appointments;
   }
 
+  set setAppointment(appointments: Appointment[]) {
+    this.appointments = appointments;
+  }
+
   get getContact() {
     return this.contact;
   }

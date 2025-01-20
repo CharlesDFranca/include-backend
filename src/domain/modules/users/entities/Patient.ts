@@ -26,4 +26,8 @@ export class Patient extends AbstractUser {
   get getAppointments() {
     return this.appointments;
   }
+
+  set setAppointment(appointments: Appointment[]) {
+    this.appointments = appointments;
+  }
 }
