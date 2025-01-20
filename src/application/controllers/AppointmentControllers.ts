@@ -4,6 +4,7 @@ import { DeleteAppointmentUseCase } from "../../domain/modules/appointments/use-
 import { FindAllAppointmentsUseCase } from "../../domain/modules/appointments/use-cases/FindAllAppointmentsUseCase";
 import { FindAppointmentByIDUseCase } from "../../domain/modules/appointments/use-cases/FindAppointmentByIDUseCase";
 import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
+import { StatusCode } from "../../domain/common/enums/StatusCode";
 
 export class AppointmentControllers {
   constructor(
@@ -26,7 +27,7 @@ export class AppointmentControllers {
       startsAt,
     });
 
-    res.status(201).json({ ...appointment });
+    res.status(StatusCode.CREATED).json({ ...appointment });
   }
 
   async findByID(req: Request, res: Response) {
@@ -38,13 +39,13 @@ export class AppointmentControllers {
 
     const appointment = await this.findAppointmentByIDUseCase.execute(id);
 
-    res.status(200).json({ ...appointment });
+    res.status(StatusCode.OK).json({ ...appointment });
   }
 
   async findAll(req: Request, res: Response) {
     const appointments = await this.findAllAppointmentsUseCase.execute();
 
-    res.status(200).json(appointments);
+    res.status(StatusCode.OK).json(appointments);
   }
 
   async delete(req: Request, res: Response) {
@@ -56,6 +57,6 @@ export class AppointmentControllers {
 
     await this.deleteAppointmentUseCase.execute(id);
 
-    res.status(204).json({});
+    res.status(StatusCode.NO_CONTENT).json({});
   }
 }

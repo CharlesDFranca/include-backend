@@ -8,6 +8,7 @@ import {
   CreatePatientUseCase,
 } from "../../domain/modules/users/use-cases/patients/CreatePatientUseCase";
 import { AuthPatientUseCase } from "../../domain/modules/users/use-cases/patients/AuthPatientUseCase";
+import { StatusCode } from "../../domain/common/enums/StatusCode";
 
 export class PatientController {
   constructor(
@@ -27,7 +28,7 @@ export class PatientController {
 
     const patient = await this.createPatientUseCase.execute({ name, email, contact, password });
 
-    res.status(201).json({
+    res.status(StatusCode.CREATED).json({
       id: patient.getID,
       name: patient.getName,
       email: patient.getEmail,
@@ -46,7 +47,7 @@ export class PatientController {
 
     const access_token = await this.authPatientUseCase.execute({ email, password });
 
-    res.status(200).json({ token: access_token });
+    res.status(StatusCode.OK).json({ token: access_token });
   }
 
   async findByID(req: Request, res: Response) {
@@ -54,7 +55,7 @@ export class PatientController {
 
     const patient = await this.findPatientByIDUseCase.execute(id);
 
-    res.status(200).json({
+    res.status(StatusCode.OK).json({
       id: patient!.getID,
       name: patient!.getName,
       email: patient!.getEmail,
@@ -74,7 +75,7 @@ export class PatientController {
       };
     });
 
-    res.status(200).json(patientsWithoutPass);
+    res.status(StatusCode.OK).json(patientsWithoutPass);
   }
 
   async delete(req: Request, res: Response) {
@@ -82,6 +83,6 @@ export class PatientController {
 
     await this.deletePatientUseCase.execute(id);
 
-    res.status(204).json({});
+    res.status(StatusCode.NO_CONTENT).json({});
   }
 }

@@ -8,6 +8,7 @@ import { FindAllDoctorsUseCase } from "../../domain/modules/users/use-cases/doct
 import { FindDoctorByIDUseCase } from "../../domain/modules/users/use-cases/doctors/FindDoctorByIDUseCase";
 import { MissingRequiredFieldsError } from "../../domain/common/errors/MissingRequiredFieldsError";
 import { AuthDoctorUseCase } from "../../domain/modules/users/use-cases/doctors/AuthDoctorUseCase";
+import { StatusCode } from "../../domain/common/enums/StatusCode";
 
 export class DoctorControllers {
   constructor(
@@ -36,7 +37,7 @@ export class DoctorControllers {
       specialty,
     });
 
-    res.status(201).json({
+    res.status(StatusCode.CREATED).json({
       id: doctor.getID,
       name: doctor.getName,
       email: doctor.getEmail,
@@ -56,7 +57,7 @@ export class DoctorControllers {
 
     const access_token = await this.authDoctorUseCase.execute({ email, password });
 
-    res.status(200).json({ token: access_token });
+    res.status(StatusCode.OK).json({ token: access_token });
   }
 
   async findByID(req: Request, res: Response) {
@@ -64,7 +65,7 @@ export class DoctorControllers {
 
     const doctor = await this.findDoctorByIDUseCase.execute(id);
 
-    res.status(200).json({
+    res.status(StatusCode.OK).json({
       id: doctor.getID,
       name: doctor.getName,
       email: doctor.getEmail,
@@ -90,7 +91,7 @@ export class DoctorControllers {
       };
     });
 
-    res.status(200).json(doctorsWithoutPass);
+    res.status(StatusCode.OK).json(doctorsWithoutPass);
   }
 
   async delete(req: Request, res: Response) {
@@ -98,6 +99,6 @@ export class DoctorControllers {
 
     await this.deleteDoctorUseCase.execute(id);
 
-    res.status(204).json({});
+    res.status(StatusCode.NO_CONTENT).json({});
   }
 }
