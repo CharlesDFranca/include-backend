@@ -15,22 +15,20 @@ const AvailabilitySchema = new Schema({
   sunday: [TimeIntervalSchema],
 });
 
+const CRMSchema = new Schema({
+  value: { type: String, required: true },
+  uf: { type: String, required: true },
+});
+
 const DoctorSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     contact: { type: String, required: true },
-    CRM: {
-      value: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      uf: { type: String, required: true },
-    },
+    CRM: { type: CRMSchema, required: true, unique: true },
     password: { type: String, required: true },
     specialty: { type: String, required: true },
-    availability: { type: AvailabilitySchema, required: true },
+    availability: { type: AvailabilitySchema, required: true }
   },
   { timestamps: true },
 );
