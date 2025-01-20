@@ -86,6 +86,30 @@ export class DoctorRepository implements IDoctorRepository {
     );
   }
 
+  async findByCRM(value: string, uf: string): Promise<Doctor | null> {
+    const doctorData = await DoctorModel.findOne({
+      "CRM.value": value,
+      "CRM.uf": uf.toUpperCase(),
+    });
+
+    if (!doctorData) {
+      return null;
+    }
+
+    const newCRM = new CRM(`${doctorData.CRM?.value}/${doctorData.CRM?.uf.toUpperCase()}`);
+
+    return new Doctor(
+      doctorData?._id.toString(),
+      doctorData.name,
+      new Email(doctorData.email),
+      doctorData.contact,
+      newCRM,
+      doctorData.specialty,
+      new Availability(doctorData.availability),
+      doctorData.password,
+    );
+  }
+
   async findAll(): Promise<Doctor[] | null> {
     const doctorsData = await DoctorModel.find();
 
