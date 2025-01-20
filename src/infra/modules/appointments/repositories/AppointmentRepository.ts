@@ -43,6 +43,43 @@ export class AppointmentRepository implements IAppointmentRepository {
     return appointment;
   }
 
+  async findAppointmentsByPatient(patientID: string): Promise<Appointment[] | null> {
+    const appointmentsData = await AppointmentModel.find({ patientID });
+
+    if (!appointmentsData) {
+      return null;
+    }
+
+    const appointments = appointmentsData.map((appointment) => {
+      return new Appointment(
+        appointment._id.toString(),
+        appointment.patientID.toString(),
+        appointment.doctorID.toString(),
+        appointment.startsAt,
+      );
+    });
+
+    return appointments;
+  }
+  async findAppointmentsByDoctor(doctorID: string): Promise<Appointment[] | null> {
+    const appointmentsData = await AppointmentModel.find({ doctorID });
+
+    if (!appointmentsData) {
+      return null;
+    }
+
+    const appointments = appointmentsData.map((appointment) => {
+      return new Appointment(
+        appointment._id.toString(),
+        appointment.patientID.toString(),
+        appointment.doctorID.toString(),
+        appointment.startsAt,
+      );
+    });
+
+    return appointments;
+  }
+
   async findAll(): Promise<Appointment[] | null> {
     const appointmentsData = await AppointmentModel.find();
 
@@ -58,9 +95,6 @@ export class AppointmentRepository implements IAppointmentRepository {
         appointment.startsAt,
       );
     });
-
-    console.log(appointments);
-
     return appointments;
   }
   async delete(id: string): Promise<void> {
