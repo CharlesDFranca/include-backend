@@ -1,4 +1,5 @@
 import { AbstractEntity } from "../../../common/entities/AbstractEntity";
+import { InvalidDataError } from "../../../common/errors/InvalidDataError";
 import { Doctor } from "../../users/entities/Doctor";
 import { Patient } from "../../users/entities/Patient";
 
@@ -33,8 +34,16 @@ export class Appointment extends AbstractEntity<AppointmentProps> {
   }
 
   public addAppointment(patient: Patient, doctor: Doctor) {
-    this.validateOverlappingAppointments(patient.getAppointments);
-    this.validateOverlappingAppointments(doctor.getAppointments);
+    Appointment.validateOverlappingAppointments(
+      patient.getAppointments,
+      this.getStartsAt,
+      this.getEndsAt,
+    );
+    Appointment.validateOverlappingAppointments(
+      doctor.getAppointments,
+      this.getStartsAt,
+      this.getEndsAt,
+    );
 
     this.linkToPatient(patient);
     this.linkToDoctor(doctor);
@@ -48,19 +57,20 @@ export class Appointment extends AbstractEntity<AppointmentProps> {
     doctor.getAppointments.push(this);
   }
 
-  public validateOverlappingAppointments(appointments: Appointment[]): void {
+  public static validateOverlappingAppointments(
+    appointments: Appointment[],
+    startsAt: Date,
+    endsAt: Date,
+  ): void {
     const overLappingAppointment = appointments.filter(
       (patientAppointment) =>
-        (this.getStartsAt >= patientAppointment.getStartsAt &&
-          this.getStartsAt < patientAppointment.getEndsAt) ||
-        (this.getEndsAt > patientAppointment.getStartsAt &&
-          this.getEndsAt <= patientAppointment.getEndsAt) ||
-        (this.getStartsAt <= patientAppointment.getStartsAt &&
-          this.getEndsAt >= patientAppointment.getEndsAt),
+        (startsAt >= patientAppointment.getStartsAt && startsAt < patientAppointment.getEndsAt) ||
+        (endsAt > patientAppointment.getStartsAt && endsAt <= patientAppointment.getEndsAt) ||
+        (startsAt <= patientAppointment.getStartsAt && endsAt >= patientAppointment.getEndsAt),
     );
 
     if (overLappingAppointment.length > 0) {
-      throw new Error("Overlapping appointment");
+      throw new InvalidDataError("Overlapping appointment");
     }
   }
 }
