@@ -36,9 +36,16 @@ export class CreateDoctorUseCase {
       throw new InvalidCredentialsError("Invalid email");
     }
 
+    const [value, uf] = crm.split("/");
+
+    const crmExists = await this.doctorRepository.findByCRM(value, uf);
+
+    if (crmExists) {
+      throw new InvalidCredentialsError("Invalid CRM");
+    }
+
     const passwordHash = await this.hashProvider.hash(password);
 
-    const [value, uf] = crm.split("/");
     const newCRM = new CRM(`${value}/${uf.toUpperCase()}`);
 
     const doctor = await this.doctorRepository.create({
